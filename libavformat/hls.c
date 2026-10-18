@@ -2662,6 +2662,9 @@ static int hls_read_packet(AVFormatContext *s, AVPacket *pkt)
 
         ist = pls->ctx->streams[pls->pkt->stream_index];
         st = pls->main_streams[pls->pkt->stream_index];
+        av_log(s, AV_LOG_INFO, "HLS_DIAG rendition=%d child_index=%d child_pid=0x%x parent_index=%d needed=%d child_discard=%d parent_discard=%d seq=%"PRId64" pts=%"PRId64" dts=%"PRId64"\n",
+               pls->index, ist->index, ist->id, st->index, pls->needed,
+               ist->discard, st->discard, pls->cur_seq_no, pls->pkt->pts, pls->pkt->dts);
 
         av_packet_move_ref(pkt, pls->pkt);
         pkt->stream_index = st->index;
